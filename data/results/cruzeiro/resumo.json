@@ -1,0 +1,58 @@
+{
+  "input": "cruzeiro.png",
+  "original_size": [
+    600,
+    600
+  ],
+  "resized_size": [
+    320,
+    320
+  ],
+  "graph_stats": {
+    "num_vertices": 102400,
+    "num_edges": 407682,
+    "connectivity": 8
+  },
+  "parameters": {
+    "k": 300.0,
+    "min_size": 20,
+    "sigma": 0.8,
+    "color_space": "rgb",
+    "base_num_regions": 119
+  },
+  "timings_ms": {
+    "load": 14.211,
+    "build_graph": 280.933,
+    "segmentation": 555.691,
+    "hierarchy": 78.973,
+    "save_results": 34.138,
+    "total": 963.956
+  },
+  "levels": [
+    {
+      "level": 0,
+      "num_regions": 119,
+      "image": "nivel_00.png"
+    },
+    {
+      "level": 1,
+      "num_regions": 43,
+      "image": "nivel_01.png"
+    },
+    {
+      "level": 2,
+      "num_regions": 15,
+      "image": "nivel_02.png"
+    },
+    {
+      "level": 3,
+      "num_regions": 6,
+      "image": "nivel_03.png"
+    },
+    {
+      "level": 4,
+      "num_regions": 2,
+      "image": "nivel_04.png"
+    }
+  ]
+}
