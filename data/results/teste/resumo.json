@@ -1,0 +1,58 @@
+{
+  "input": "teste.png",
+  "original_size": [
+    240,
+    160
+  ],
+  "resized_size": [
+    240,
+    160
+  ],
+  "graph_stats": {
+    "num_vertices": 38400,
+    "num_edges": 152402,
+    "connectivity": 8
+  },
+  "parameters": {
+    "k": 300.0,
+    "min_size": 20,
+    "sigma": 0.8,
+    "color_space": "rgb",
+    "base_num_regions": 24
+  },
+  "timings_ms": {
+    "load": 10.681,
+    "build_graph": 101.502,
+    "segmentation": 168.874,
+    "hierarchy": 24.04,
+    "save_results": 16.756,
+    "total": 321.876
+  },
+  "levels": [
+    {
+      "level": 0,
+      "num_regions": 24,
+      "image": "nivel_00.png"
+    },
+    {
+      "level": 1,
+      "num_regions": 13,
+      "image": "nivel_01.png"
+    },
+    {
+      "level": 2,
+      "num_regions": 7,
+      "image": "nivel_02.png"
+    },
+    {
+      "level": 3,
+      "num_regions": 4,
+      "image": "nivel_03.png"
+    },
+    {
+      "level": 4,
+      "num_regions": 2,
+      "image": "nivel_04.png"
+    }
+  ]
+}
