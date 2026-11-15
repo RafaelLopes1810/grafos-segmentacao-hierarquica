@@ -3,4 +3,6 @@ pillow
 opencv-python
 fastapi
 uvicorn
+python-multipart
+httpx
 pytest
