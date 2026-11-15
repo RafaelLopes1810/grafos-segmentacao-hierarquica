@@ -3,20 +3,16 @@
 from __future__ import annotations
 
 from math import isfinite
-from typing import Literal
 
 import cv2
 import numpy as np
 
 from app.core.graph import Graph
 
-ColorSpace = Literal["rgb", "lab"]
-
 
 def build_pixel_graph(
     image: np.ndarray,
     connectivity: int = 8,
-    color_space: ColorSpace = "rgb",
     sigma: float = 0.8,
 ) -> tuple[Graph, int, int]:
     """Cria um vértice por pixel e arestas com dissimilaridade de cor.
@@ -28,7 +24,6 @@ def build_pixel_graph(
     Args:
         image: imagem RGB uint8 no formato (altura, largura, 3).
         connectivity: conectividade 4 ou 8.
-        color_space: espaço de cor usado nos pesos, "rgb" ou "lab".
         sigma: desvio padrão da suavização gaussiana; zero desativa a etapa.
 
     Returns:
@@ -50,8 +45,6 @@ def build_pixel_graph(
         raise ValueError("image deve ser uma matriz RGB uint8 não vazia")
     if connectivity not in (4, 8):
         raise ValueError("connectivity deve ser 4 ou 8")
-    if color_space not in ("rgb", "lab"):
-        raise ValueError("color_space deve ser 'rgb' ou 'lab'")
     if not isfinite(sigma) or sigma < 0:
         raise ValueError("sigma deve ser um número finito maior ou igual a zero")
 
@@ -66,12 +59,7 @@ def build_pixel_graph(
             borderType=cv2.BORDER_REFLECT,
         )
 
-    if color_space == "lab":
-        colors = cv2.cvtColor(
-            smoothed.astype(np.float32) / 255.0, cv2.COLOR_RGB2LAB
-        )
-    else:
-        colors = smoothed.astype(np.float32)
+    colors = smoothed.astype(np.float32)
 
     graph = Graph(width * height)
     offsets = [(0, 1), (1, 0)]

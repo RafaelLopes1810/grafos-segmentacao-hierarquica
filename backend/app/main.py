@@ -92,10 +92,9 @@ def _validate_parameters(
     min_size: int,
     sigma: float,
     connectivity: int,
-    color_space: str,
     num_levels: int,
-) -> tuple[int, str]:
-    """Valida parâmetros numéricos e seleciona o espaço de cor."""
+) -> int:
+    """Valida parâmetros numéricos do processamento."""
     resolved_max_side = _resolve_max_side(max_side, preset)
     if not math.isfinite(k) or k < 0:
         raise HTTPException(status_code=422, detail="k deve ser finito e não negativo.")
@@ -111,18 +110,12 @@ def _validate_parameters(
             status_code=422,
             detail="connectivity deve ser 4 ou 8.",
         )
-    normalized_color_space = color_space.strip().lower()
-    if normalized_color_space not in ("rgb", "lab"):
-        raise HTTPException(
-            status_code=422,
-            detail="color_space deve ser 'rgb' ou 'lab'.",
-        )
     if not 1 <= num_levels <= MAX_LEVELS:
         raise HTTPException(
             status_code=422,
             detail=f"num_levels deve estar entre 1 e {MAX_LEVELS}.",
         )
-    return resolved_max_side, normalized_color_space
+    return resolved_max_side
 
 
 def _load_uploaded_image(
@@ -182,19 +175,17 @@ async def segment(
     min_size: int = Form(default=20),
     sigma: float = Form(default=0.8),
     connectivity: int = Form(default=8),
-    color_space: str = Form(default="rgb"),
     num_levels: int = Form(default=8),
 ) -> dict[str, object]:
     """Executa o pipeline e retorna imagens, estatísticas e níveis em Base64."""
     total_start = time.perf_counter()
-    resolved_max_side, normalized_color_space = _validate_parameters(
+    resolved_max_side = _validate_parameters(
         max_side,
         preset,
         k,
         min_size,
         sigma,
         connectivity,
-        color_space,
         num_levels,
     )
 
@@ -222,7 +213,6 @@ async def segment(
     graph, graph_width, graph_height = build_pixel_graph(
         loaded.image,
         connectivity=connectivity,
-        color_space=normalized_color_space,
         sigma=sigma,
     )
     build_graph_ms = (time.perf_counter() - stage_start) * 1000

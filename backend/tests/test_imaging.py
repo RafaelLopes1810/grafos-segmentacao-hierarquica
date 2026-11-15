@@ -85,16 +85,16 @@ def test_build_pixel_graph_has_expected_size_for_3_by_3_image(
     assert dict(((u, v), weight) for u, v, weight in graph.edges())[(0, 1)] == 5.0
 
 
-def test_build_pixel_graph_supports_lab_and_rejects_bad_parameters():
-    """O caminho Lab deve funcionar e parâmetros inválidos devem ser rejeitados."""
+def test_build_pixel_graph_uses_rgb_and_rejects_bad_parameters():
+    """Os pesos RGB devem ser calculados e parâmetros inválidos rejeitados."""
     image = np.zeros((2, 2, 3), dtype=np.uint8)
     image[:, 1] = (255, 0, 0)
 
-    graph, _, _ = build_pixel_graph(
-        image, connectivity=4, color_space="lab", sigma=0
-    )
+    graph, _, _ = build_pixel_graph(image, connectivity=4, sigma=0)
     assert graph.num_edges() == 4
-    assert all(weight >= 0 for _, _, weight in graph.edges())
+    assert dict(((u, v), weight) for u, v, weight in graph.edges())[(0, 1)] == 255.0
 
     with pytest.raises(ValueError, match="connectivity"):
         build_pixel_graph(image, connectivity=6)
+    with pytest.raises(ValueError, match="sigma"):
+        build_pixel_graph(image, sigma=-1)

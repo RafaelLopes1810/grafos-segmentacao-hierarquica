@@ -78,7 +78,6 @@ def test_segment_endpoint_returns_images_stats_and_levels():
             "min_size": "1",
             "sigma": "0",
             "connectivity": "4",
-            "color_space": "rgb",
             "num_levels": "3",
         },
     )

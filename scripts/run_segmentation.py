@@ -62,12 +62,6 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Conectividade do grafo de pixels",
     )
     parser.add_argument(
-        "--color-space",
-        choices=("rgb", "lab"),
-        default="rgb",
-        help="Espaço de cor usado nos pesos das arestas",
-    )
-    parser.add_argument(
         "--out",
         type=Path,
         default=Path("data/results"),
@@ -105,7 +99,6 @@ def run_pipeline(args: argparse.Namespace) -> dict[str, object]:
     graph, width, height = build_pixel_graph(
         loaded.image,
         connectivity=args.connectivity,
-        color_space=args.color_space,
         sigma=args.sigma,
     )
     timings["build_graph"] = (time.perf_counter() - stage_start) * 1000
@@ -167,7 +160,6 @@ def run_pipeline(args: argparse.Namespace) -> dict[str, object]:
             "k": args.k,
             "min_size": args.min_size,
             "sigma": args.sigma,
-            "color_space": args.color_space,
             "base_num_regions": base_region_count,
         },
         "timings_ms": {
