@@ -8,8 +8,8 @@ Projeto da disciplina **Teoria dos Grafos e Computabilidade**. Uma imagem digita
 
 As imagens abaixo foram produzidas com `data/raw/carro.jpg`, resolução máxima de 320 px, conectividade 8, `k=300`, `sigma=0.8`, `min_size=20` e oito níveis.
 
-| Imagem de entrada | Nível 1: 186 regiões | Nível 8: 2 regiões |
-|:--:|:--:|:--:|
+|                       Imagem de entrada                        |                      Nível 1: 186 regiões                      |                      Nível 8: 2 regiões                       |
+| :------------------------------------------------------------: | :------------------------------------------------------------: | :-----------------------------------------------------------: |
 | ![Carro redimensionado](data/results/carro/redimensionada.png) | ![Segmentação mais detalhada](data/results/carro/nivel_00.png) | ![Segmentação mais agrupada](data/results/carro/nivel_07.png) |
 
 A interface permite escolher o nível, visualizar o grafo de adjacência de regiões (RAG), consultar áreas das regiões, tempos e homogeneidade RGB (MSE) e acompanhar **dois gráficos por nível**: quantidade de regiões e MSE.
@@ -68,15 +68,15 @@ Acesse **http://localhost:5173**. A API deve responder em **http://localhost:800
 
 ### Parâmetros
 
-| Parâmetro | Função | Valor padrão da interface |
-|---|---|---|
-| Resolução | Limita o maior lado da imagem; preserva a proporção | Média (320 px) |
-| Conectividade | Considera 4 ou 8 vizinhos por pixel no grafo inicial | 8 |
-| Espaço de cores | Distância dos pesos das arestas: RGB ou CIELAB | RGB |
-| `k` | Controla a escala do agrupamento inicial | 300 |
-| `sigma` | Suavização gaussiana antes do cálculo dos pesos | 0,8 |
-| `min_size` | Pós-processamento de componentes pequenas | 20 pixels |
-| `num_levels` | Máximo de níveis hierárquicos solicitados (1 a 16 na interface) | 8 |
+| Parâmetro       | Função                                                          | Valor padrão da interface |
+| --------------- | --------------------------------------------------------------- | ------------------------- |
+| Resolução       | Limita o maior lado da imagem; preserva a proporção             | Média (320 px)            |
+| Conectividade   | Considera 4 ou 8 vizinhos por pixel no grafo inicial            | 8                         |
+| Espaço de cores | Distância dos pesos das arestas: RGB ou CIELAB                  | RGB                       |
+| `k`             | Controla a escala do agrupamento inicial                        | 300                       |
+| `sigma`         | Suavização gaussiana antes do cálculo dos pesos                 | 0,8                       |
+| `min_size`      | Pós-processamento de componentes pequenas                       | 20 pixels                 |
+| `num_levels`    | Máximo de níveis hierárquicos solicitados (1 a 16 na interface) | 8                         |
 
 O backend pode devolver **menos níveis** que o solicitado quando não existem quantidades distintas de regiões suficientes. O MSE avalia a homogeneidade RGB dentro das regiões; **não é uma medida de reconhecimento de objetos**. RI e VI comparam partições, não avaliam acurácia sem uma referência anotada.
 
@@ -111,14 +111,14 @@ python scripts/benchmark_reproducivel.py --image data/raw/carro.jpg --resolution
 
 O script fixa a imagem e os parâmetros, realiza um aquecimento por resolução e cinco medições sequenciais e registra o ambiente e a revisão Git. Gera:
 
-| Arquivo | Conteúdo |
-|---|---|
-| `observacoes.csv` | Medições individuais por resolução/repetição |
-| `resumo.csv` | Média, desvio padrão amostral, mediana, mínimo e máximo |
-| `niveis.csv` | Número de regiões e MSE por nível em cada execução nova |
-| `metadados.json` | Configuração, versões, hash da imagem e revisão Git |
-| `relatorio.md` | Síntese dos resultados |
-| `tempo_total_ms.svg` e `homogeneidade_mse.svg` | Gráficos com médias e dispersão |
+| Arquivo                                        | Conteúdo                                                |
+| ---------------------------------------------- | ------------------------------------------------------- |
+| `observacoes.csv`                              | Medições individuais por resolução/repetição            |
+| `resumo.csv`                                   | Média, desvio padrão amostral, mediana, mínimo e máximo |
+| `niveis.csv`                                   | Número de regiões e MSE por nível em cada execução nova |
+| `metadados.json`                               | Configuração, versões, hash da imagem e revisão Git     |
+| `relatorio.md`                                 | Síntese dos resultados                                  |
+| `tempo_total_ms.svg` e `homogeneidade_mse.svg` | Gráficos com médias e dispersão                         |
 
 Para **consolidar o benchmark histórico sem executar o algoritmo novamente**:
 
@@ -131,10 +131,10 @@ Os dados completos da execução já registrada estão em [`data/results/reprodu
 ### Exemplo de resultado registrado
 
 | Limite do maior lado | Vértices | Arestas | Regiões base | Tempo médio total (5 execuções) |
-|---:|---:|---:|---:|---:|
-| 160 px | 17.120 | 67.681 | 62 | 474,31 ± 89,26 ms |
-| 320 px | 68.160 | 271.043 | 186 | 1.471,35 ± 70,06 ms |
-| 480 px | 153.600 | 612.002 | 416 | 3.257,31 ± 105,04 ms |
+| -------------------: | -------: | ------: | -----------: | ------------------------------: |
+|               160 px |   17.120 |  67.681 |           62 |               474,31 ± 89,26 ms |
+|               320 px |   68.160 | 271.043 |          186 |             1.471,35 ± 70,06 ms |
+|               480 px |  153.600 | 612.002 |          416 |            3.257,31 ± 105,04 ms |
 
 O desvio padrão descreve a dispersão das medições, **não um intervalo de confiança**. Tempos dependem do ambiente. Como a imagem muda quando redimensionada, a comparação de MSE entre resoluções não verifica monotonicidade da hierarquia.
 
@@ -169,10 +169,20 @@ README.md
 
 ## Documentação e materiais
 
-- [Diagramas UML](docs/etapa1/uml/README.md)
+- [Modelagem e planejamento da solução](docs/etapa1/uml/modelagem_e_planejamento.md)
+- [Diagramas UML — Classes, Componentes e Sequência](docs/etapa1/uml/README.md)
 - [Validação matemática da hierarquia](docs/relatorio/validacao_matematica.md)
-- [Metodologia do benchmark](docs/relatorio/benchmark_reproducivel.md)
-- [Relatório acadêmico em PDF](docs/relatorio/)
-- [Detalhes do frontend](frontend/README.md)
+- [Metodologia e resultados do benchmark](docs/relatorio/benchmark_reproducivel.md)
+- [Relatório científico em PDF — Padrão SBC](docs/relatorio/Segmenta%C3%A7%C3%A3o_Hier%C3%A1rquica_de_Imagens_Baseada_em_Grafos%20%283%29.pdf)
+- [Código-fonte do relatório em LaTeX](docs/relatorio/main.tex)
+- [Capturas da interface e resultados](docs/relatorio/figuras/)
+- [Documentação do frontend React](frontend/README.md)
 
-O trabalho acadêmico segue o modelo de artigos da SBC. Os exemplos de imagem e os resultados são utilizados para demonstrar comportamento da implementação, sem afirmar reconhecimento semântico dos objetos.
+O relatório científico apresenta a fundamentação teórica,
+a modelagem matemática, os algoritmos implementados,
+a análise de complexidade, os testes automatizados,
+os resultados experimentais e as contribuições individuais.
+
+O projeto também disponibiliza os diagramas UML,
+os dados do benchmark e as imagens obtidas durante
+a segmentação hierárquica.
