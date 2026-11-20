@@ -599,6 +599,25 @@ Na interface, o usuário pode alternar entre
 os níveis já processados sem executar uma
 nova requisição à API.
 
+A Figura~\ref{fig:interface_real} registra a interface em funcionamento
+com a imagem do carro. À esquerda, observa-se a comparação visual
+entre a imagem de entrada e a segmentação inicial; à direita,
+os gráficos exibem o número de regiões e o MSE nos níveis da
+hierarquia. Os valores são atualizados ao selecionar outro nível,
+sem uma nova execução da API.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[
+  width=.96\textwidth,
+  height=5.5cm,
+  keepaspectratio
+]{interface_segmentacao_metricas.png}
+\caption{Interface do sistema durante um teste com a imagem do
+carro: comparação da segmentação e gráficos hierárquicos de regiões e MSE.}
+\label{fig:interface_real}
+\end{figure}
+
 A sequência dessas operações é apresentada
 na Figura~\ref{fig:sequencia}.
 
@@ -612,6 +631,34 @@ keepaspectratio
 \caption{Sequência principal do processamento da imagem.}
 \label{fig:sequencia}
 \end{figure}
+
+\subsection{Responsabilidades e contribuições dos integrantes}
+
+O projeto foi desenvolvido de forma colaborativa. A distribuição das
+contribuições abaixo foi identificada no histórico de commits do
+repositório e deve ser confirmada pelos integrantes antes da entrega.
+
+\begin{itemize}
+  \item \textbf{Rafael de Oliveira Caldeira Lopes:} implementação da
+  leitura e preparação das imagens, construção do grafo de pixels,
+  segmentação Felzenszwalb--Huttenlocher, hierarquia de fusões,
+  grafo de adjacência de regiões (RAG) e API FastAPI, com seus testes.
+
+  \item \textbf{Otto Esteves Oliveira:} desenvolvimento do frontend
+  em React e Vite, incluindo upload, configuração dos parâmetros,
+  integração com a API, comparação de imagens, navegação entre
+  níveis hierárquicos e visualização do RAG.
+
+  \item \textbf{Ana Luiza Rezende:} implementação das métricas de
+  avaliação (RI, VI e MSE), integração das estatísticas à interface,
+  testes adicionais e validação matemática das partições,
+  benchmark reproduzível e documentação dos resultados.
+
+  \item \textbf{Gustavo Costa Gabrich:} elaboração dos diagramas UML,
+  implementação e integração dos gráficos de quantidade de regiões
+  e MSE por nível e atualização dos arquivos README com instruções
+  de instalação, execução e avaliação.
+\end{itemize}
 
 \subsection{Complexidade computacional}
 
@@ -1086,6 +1133,7 @@ referência para avaliação semântica.
 
 % LINK DO RELATÓRIO NO OVERLEAF
 \section*{Disponibilidade do Projeto}
+\par\smallskip
 
 O código-fonte do relatório está disponível
 na plataforma Overleaf:
@@ -1093,7 +1141,5 @@ na plataforma Overleaf:
 \begin{center}
 \url{https://www.overleaf.com/project/6b00a18a4f95ab59544f7e8e/share#7426e7e0d6b7d42f54da59cda79005dc6f9cf5927ce58da8}
 \end{center}
-
-\end{document}
 
 \end{document}
