@@ -1,85 +1,178 @@
 # Segmentação Hierárquica de Imagens com Grafos
 
-Trabalho prático de **Teoria dos Grafos e Computabilidade**. A ideia é simples de explicar e divertida de implementar: pegar uma imagem, transformar ela num grafo e usar algoritmos de grafos pra descobrir "o que é o quê" dentro dela, em vários níveis de detalhe.
+Projeto da disciplina **Teoria dos Grafos e Computabilidade**. Uma imagem digital é transformada em um grafo ponderado de pixels; um algoritmo de segmentação forma regiões e uma hierarquia de fusões permite explorar diferentes níveis de detalhamento. A aplicação combina **Python + FastAPI** no backend e **React + Vite** no frontend.
 
-## Do que se trata?
+> As estruturas de grafos, Union-Find, segmentação e hierarquia foram implementadas no projeto; não é utilizada uma biblioteca pronta de algoritmos de grafos para realizar o processamento.
 
-Uma imagem é só um monte de pixels. Mas se a gente olhar cada pixel como um **vértice** e ligar pixels vizinhos com **arestas** (cujo peso é o quão diferentes eles são na cor), a imagem vira um grafo. A partir daí:
+## Demonstração visual
 
-1. Vamos **juntando regiões parecidas** (usando Union-Find e uma lógica estilo Kruskal / Felzenszwalb–Huttenlocher);
-2. Guardamos a **ordem das fusões**, o que gera uma **hierarquia** (um dendrograma);
-3. Cortando essa hierarquia em pontos diferentes, a gente consegue ver a imagem com **poucas regiões grandes** ou com **muitas regiões pequenas**;
-4. Em cada nível, montamos um **grafo de regiões (RAG)** pra visualizar quem é vizinho de quem.
+As imagens abaixo foram produzidas com `data/raw/carro.jpg`, resolução máxima de 320 px, conectividade 8, `k=300`, `sigma=0.8`, `min_size=20` e oito níveis.
 
-Tudo isso com uma interface pra navegar pelos níveis da hierarquia e ver o resultado na hora.
+| Imagem de entrada | Nível 1: 186 regiões | Nível 8: 2 regiões |
+|:--:|:--:|:--:|
+| ![Carro redimensionado](data/results/carro/redimensionada.png) | ![Segmentação mais detalhada](data/results/carro/nivel_00.png) | ![Segmentação mais agrupada](data/results/carro/nivel_07.png) |
 
-> **Regra do trabalho:** é proibido usar bibliotecas prontas de grafos (tipo NetworkX) na solução. Elas só podem aparecer pra **comparar desempenho**. A estrutura de grafo e os algoritmos são todos nossos.
+A interface permite escolher o nível, visualizar o grafo de adjacência de regiões (RAG), consultar áreas das regiões, tempos e homogeneidade RGB (MSE) e acompanhar **dois gráficos por nível**: quantidade de regiões e MSE.
 
-## Grupo
+## Integrantes
 
-| Integrante | Responsabilidade |
+- Ana Luiza Rezende
+- Gustavo Costa Gabrich
+- Otto Esteves Oliveira
+- Rafael de Oliveira Caldeira Lopes
+
+As contribuições individuais podem ser verificadas no histórico de commits do repositório.
+
+## Requisitos
+
+- **Python 3.10 ou superior** e `pip` (o benchmark registrado foi realizado no Python 3.14.5).
+- **Node.js 18 ou superior** e npm (Vite 5 / React 18).
+- Git para versionamento.
+- Sistema com navegador moderno e portas locais **8000** (API) e **5173** (frontend) disponíveis.
+
+## Instalação no Windows (PowerShell)
+
+Abra o terminal **na pasta raiz do repositório**:
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r backend/requirements.txt
+```
+
+Em um **primeiro terminal**, inicie a API:
+
+```powershell
+cd backend
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Em um **segundo terminal**, na raiz do repositório:
+
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Acesse **http://localhost:5173**. A API deve responder em **http://localhost:8000/health** com `{"status":"ok"}`. Documentação interativa: **http://localhost:8000/docs**.
+
+> Se o frontend não alcançar o backend, copie `frontend/.env.example` para `frontend/.env`, confira `VITE_API_URL=http://localhost:8000` e reinicie o Vite. Para outros sistemas operacionais, use o ativador apropriado do ambiente virtual (por exemplo, `source .venv/bin/activate`).
+
+## Como utilizar a aplicação
+
+1. Envie uma imagem suportada no painel **Imagem de entrada**.
+2. Defina os parâmetros de segmentação e clique em **Executar segmentação**.
+3. Compare a imagem original e a segmentada; selecione um nível na navegação hierárquica.
+4. Observe os **gráficos de regiões e MSE**, o **RAG** e as **estatísticas** atualizados para o nível escolhido.
+
+### Parâmetros
+
+| Parâmetro | Função | Valor padrão da interface |
+|---|---|---|
+| Resolução | Limita o maior lado da imagem; preserva a proporção | Média (320 px) |
+| Conectividade | Considera 4 ou 8 vizinhos por pixel no grafo inicial | 8 |
+| Espaço de cores | Distância dos pesos das arestas: RGB ou CIELAB | RGB |
+| `k` | Controla a escala do agrupamento inicial | 300 |
+| `sigma` | Suavização gaussiana antes do cálculo dos pesos | 0,8 |
+| `min_size` | Pós-processamento de componentes pequenas | 20 pixels |
+| `num_levels` | Máximo de níveis hierárquicos solicitados (1 a 16 na interface) | 8 |
+
+O backend pode devolver **menos níveis** que o solicitado quando não existem quantidades distintas de regiões suficientes. O MSE avalia a homogeneidade RGB dentro das regiões; **não é uma medida de reconhecimento de objetos**. RI e VI comparam partições, não avaliam acurácia sem uma referência anotada.
+
+## Testes automatizados
+
+Com as dependências Python instaladas, execute dentro de `backend/`:
+
+```powershell
+cd backend
+python -m pytest tests -v
+```
+
+Os testes cobrem a API FastAPI, estruturas de grafos, segmentação, hierarquia, invariantes matemáticos, métricas e casos-limite. Incluem verificação de que partições são aninhadas e de que o MSE não diminui nos agrupamentos da mesma imagem.
+
+## Execução pela linha de comando (sem frontend)
+
+Na raiz do repositório:
+
+```powershell
+python scripts/run_segmentation.py --input data/raw/carro.jpg --max-side 320 --connectivity 8 --color-space rgb --k 300 --sigma 0.8 --min-size 20 --levels 8 --out data/results
+```
+
+O comando salva os arquivos em `data/results/carro/`: `redimensionada.png`, `nivel_00.png` até o último nível produzido e `resumo.json` com as características do grafo, parâmetros, níveis e tempos.
+
+## Benchmark reproduzível
+
+Na raiz do repositório, execute uma nova rodada em uma pasta de saída separada para não sobrescrever os resultados versionados:
+
+```powershell
+python scripts/benchmark_reproducivel.py --image data/raw/carro.jpg --resolutions 160 320 480 --repetitions 5 --warmups 1 --output data/results/benchmark_local
+```
+
+O script fixa a imagem e os parâmetros, realiza um aquecimento por resolução e cinco medições sequenciais e registra o ambiente e a revisão Git. Gera:
+
+| Arquivo | Conteúdo |
 |---|---|
-| _Ana Luiza Rezende_ | _(a definir)_ |
-| _Gustavo Costa Gabrich_ | _(a definir)_ |
-| _Otto Esteves Oliveira_ | _(a definir)_ |
-| _Rafael de Oliveira Caldeira Lopes_ | _(a definir)_ |
+| `observacoes.csv` | Medições individuais por resolução/repetição |
+| `resumo.csv` | Média, desvio padrão amostral, mediana, mínimo e máximo |
+| `niveis.csv` | Número de regiões e MSE por nível em cada execução nova |
+| `metadados.json` | Configuração, versões, hash da imagem e revisão Git |
+| `relatorio.md` | Síntese dos resultados |
+| `tempo_total_ms.svg` e `homogeneidade_mse.svg` | Gráficos com médias e dispersão |
 
-## Tecnologias
+Para **consolidar o benchmark histórico sem executar o algoritmo novamente**:
 
-- **Backend / grafos:** Python (estrutura de grafo, Union-Find, segmentação e hierarquia feitos do zero)
-- **Leitura de imagens:** Pillow / OpenCV / NumPy (só pra ler e desenhar pixels, sem grafo)
-- **API:** FastAPI (ou Flask) ligando o backend ao frontend
-- **Frontend:** a definir (web, com visualização da segmentação e do grafo de regiões)
-- **Relatório:** LaTeX, template oficial da SBC
-
-## Estrutura de pastas
-
-```
-grafos-segmentacao-hierarquica/
-├── README.md
-├── .gitignore
-│
-├── backend/                     # Tudo que é Python
-│   ├── requirements.txt
-│   ├── app/
-│   │   ├── main.py              # API (rotas)
-│   │   ├── core/                # Estruturas de grafo "na mão"
-│   │   │   ├── graph.py         #   Grafo ponderado (lista de adjacência)
-│   │   │   └── union_find.py    #   Union-Find (conjuntos disjuntos)
-│   │   ├── imaging/             # Da imagem pro grafo
-│   │   │   ├── loader.py        #   Leitura/redimensionamento de imagens
-│   │   │   └── graph_builder.py #   Pixels -> vértices, vizinhança -> arestas
-│   │   ├── segmentation/        # O coração do projeto
-│   │   │   ├── felzenszwalb.py  #   Segmentação baseada em grafo
-│   │   │   ├── hierarchy.py     #   Dendrograma / níveis da hierarquia
-│   │   │   └── region_graph.py  #   Grafo de regiões (RAG)
-│   │   └── evaluation/          # Medindo se ficou bom
-│   │       ├── metrics.py       #   Métricas de qualidade
-│   │       └── benchmark.py     #   Tempo de execução / comparações
-│   └── tests/                   # Testes automatizados
-│
-├── frontend/                    # Interface gráfica (framework a definir)
-│   └── README.md
-│
-├── data/                        # Imagens e resultados
-│   ├── raw/                     #   Imagens originais (datasets)
-│   ├── processed/               #   Imagens redimensionadas/preparadas
-│   └── results/                 #   Saídas das segmentações
-│
-├── docs/                        # Documentação
-│   ├── etapa1/                  #   Documento de modelagem e planejamento
-│   │   └── uml/                 #   Diagramas UML (classes, componentes, casos de uso)
-│   └── relatorio/               #   Relatório final em LaTeX (template SBC)
-│
-└── scripts/                     # Scripts auxiliares (baixar dados, rodar benchmarks...)
+```powershell
+python scripts/benchmark_reproducivel.py --summarize data/results/benchmark_resolucoes.csv --output data/results/historico_local
 ```
 
-## Como rodar
+Os dados completos da execução já registrada estão em [`data/results/reproduzivel/`](data/results/reproduzivel/). Consulte também [`docs/relatorio/benchmark_reproducivel.md`](docs/relatorio/benchmark_reproducivel.md).
 
-_Ainda em construção!_ Vamos preencher essa parte conforme o backend e o frontend forem saindo.
+### Exemplo de resultado registrado
 
-## Etapas do trabalho
+| Limite do maior lado | Vértices | Arestas | Regiões base | Tempo médio total (5 execuções) |
+|---:|---:|---:|---:|---:|
+| 160 px | 17.120 | 67.681 | 62 | 474,31 ± 89,26 ms |
+| 320 px | 68.160 | 271.043 | 186 | 1.471,35 ± 70,06 ms |
+| 480 px | 153.600 | 612.002 | 416 | 3.257,31 ± 105,04 ms |
 
-- [ ] **Etapa 1:** Modelagem e planejamento (documento + UML)
-- [ ] **Etapa 2:** Desenvolvimento da ferramenta (protótipo funcional com interface)
-- [ ] **Etapa 3:** Relatório final, apresentação e vídeo
+O desvio padrão descreve a dispersão das medições, **não um intervalo de confiança**. Tempos dependem do ambiente. Como a imagem muda quando redimensionada, a comparação de MSE entre resoluções não verifica monotonicidade da hierarquia.
+
+## Estrutura do repositório
+
+```text
+backend/
+  app/
+    core/                # Graph, UnionFind
+    imaging/             # leitura e grafo de pixels
+    segmentation/        # Felzenszwalb, hierarquia e RAG
+    evaluation/          # métricas e benchmark original
+    main.py              # API FastAPI
+  tests/                 # testes automatizados
+frontend/
+  src/
+    components/          # upload, navegação, RAG, gráficos e estatísticas
+    services/api.js      # cliente HTTP
+    App.jsx              # composição da interface
+  README.md
+data/
+  raw/carro.jpg          # imagem do benchmark
+  results/               # segmentações e experimentos
+docs/
+  etapa1/uml/            # diagramas de classes, componentes e sequência
+  relatorio/             # PDF SBC e documentação matemática/experimental
+scripts/
+  run_segmentation.py
+  benchmark_reproducivel.py
+README.md
+```
+
+## Documentação e materiais
+
+- [Diagramas UML](docs/etapa1/uml/README.md)
+- [Validação matemática da hierarquia](docs/relatorio/validacao_matematica.md)
+- [Metodologia do benchmark](docs/relatorio/benchmark_reproducivel.md)
+- [Relatório acadêmico em PDF](docs/relatorio/)
+- [Detalhes do frontend](frontend/README.md)
+
+O trabalho acadêmico segue o modelo de artigos da SBC. Os exemplos de imagem e os resultados são utilizados para demonstrar comportamento da implementação, sem afirmar reconhecimento semântico dos objetos.
