@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+<rect width="760" height="420" fill="white"/>
+<g font-family="sans-serif" font-size="13" fill="#17212b">
+<text x="85" y="28" font-size="18">Tempo total</text>
+<text x="85" y="49">ms · média ± desvio padrão amostral</text>
+<path d="M85,340.0 H700" stroke="#dde3e8"/>
+<text x="75" y="344.0" text-anchor="end">0.00</text>
+<path d="M85,285.0 H700" stroke="#dde3e8"/>
+<text x="75" y="289.0" text-anchor="end">667.76</text>
+<path d="M85,230.0 H700" stroke="#dde3e8"/>
+<text x="75" y="234.0" text-anchor="end">1335.52</text>
+<path d="M85,175.00000000000003 H700" stroke="#dde3e8"/>
+<text x="75" y="179.00000000000003" text-anchor="end">2003.27</text>
+<path d="M85,120.00000000000003 H700" stroke="#dde3e8"/>
+<text x="75" y="124.00000000000003" text-anchor="end">2671.03</text>
+<path d="M85,65.0 H700" stroke="#dde3e8"/>
+<text x="75" y="69.0" text-anchor="end">3338.79</text>
+<path d="M85,65 V340 H700" fill="none" stroke="#17212b"/>
+<path d="M187.5,320.5890301649804 V306.1151848069489 M180.5,320.5890301649804 H194.5 M180.5,306.1151848069489 H194.5" stroke="#1967b3" fill="none"/>
+<circle cx="187.5" cy="313.3521074859646" r="5" fill="#1967b3"/>
+<text x="187.5" y="365" text-anchor="middle">160 px</text>
+<text x="187.5" y="385" text-anchor="middle">n=3</text>
+<path d="M392.5,208.1739881861685 V106.94701178577583 M385.5,208.1739881861685 H399.5 M385.5,106.94701178577583 H399.5" stroke="#1967b3" fill="none"/>
+<circle cx="392.5" cy="157.56049998597214" r="5" fill="#1967b3"/>
+<text x="392.5" y="365" text-anchor="middle">320 px</text>
+<text x="392.5" y="385" text-anchor="middle">n=3</text>
+<path d="M597.5,105.33936204511843 V100.86956521739128 M590.5,105.33936204511843 H604.5 M590.5,100.86956521739128 H604.5" stroke="#1967b3" fill="none"/>
+<circle cx="597.5" cy="103.10446363125484" r="5" fill="#1967b3"/>
+<text x="597.5" y="365" text-anchor="middle">480 px</text>
+<text x="597.5" y="385" text-anchor="middle">n=3</text>
+<text x="380" y="410" text-anchor="middle">Limite do maior lado (resolução)</text>
+</g></svg>
