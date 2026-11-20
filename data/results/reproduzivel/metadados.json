@@ -1,0 +1,29 @@
+{
+  "origem": "Medições novas, sequenciais, após aquecimento por resolução.",
+  "python": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+  "git_revision": "3084eff7cbdee7543429d527b55290a19a365f69",
+  "imagem": "C:\\Users\\ana.rezende\\OneDrive - ARG\\Área de Trabalho\\Grafos\\grafos-segmentacao-hierarquica\\data\\raw\\carro.jpg",
+  "sha256_imagem": "226e119393463fae5aa98da777ea472e9138a10209f293791a3d81e9f4ed4cfa",
+  "configuracao": {
+    "connectivity": 8,
+    "color_space": "rgb",
+    "sigma": 0.8,
+    "k": 300,
+    "min_size": 20,
+    "num_levels": 8
+  },
+  "resolucoes": [
+    160,
+    320,
+    480
+  ],
+  "repeticoes": 5,
+  "aquecimentos": 1,
+  "pacotes": {
+    "numpy": "2.5.5",
+    "pillow": "13.0.0",
+    "opencv-python": "5.1.0.95"
+  }
+}
