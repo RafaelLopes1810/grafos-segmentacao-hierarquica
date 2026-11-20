@@ -4,6 +4,7 @@ import UploadPanel from "./components/UploadPanel.jsx";
 import SettingsPanel from "./components/SettingsPanel.jsx";
 import ImageComparison, { pngSource } from "./components/ImageComparison.jsx";
 import HierarchyLevels from "./components/HierarchyLevels.jsx";
+import HierarchyMetrics from "./components/HierarchyMetrics.jsx";
 import RegionGraph from "./components/RegionGraph.jsx";
 import Statistics from "./components/Statistics.jsx";
 import { segmentImage } from "./services/api.js";
@@ -225,6 +226,12 @@ export default function App() {
                   onSelect={setSelectedIndex}
                 />
 
+                {/* Graficos de regioes e homogeneidade por nivel */}
+                <HierarchyMetrics
+                  levels={result.levels}
+                  selectedIndex={selectedIndex}
+                />
+
                 {/* Grafo de adjacencia das regioes */}
                 <RegionGraph
                   level={selectedLevel}
@@ -245,6 +252,7 @@ export default function App() {
               <div className="results-empty">
                 <div className="empty-illustration">
                   <div className="empty-frame">
+                    <span />
                     <span />
                     <span />
                     <span />
