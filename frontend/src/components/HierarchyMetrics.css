@@ -1,0 +1,21 @@
+/* Complementa o visual existente sem modificar styles.css. */
+.hm-panel { padding: 18px 20px; }
+.hm-level-badge { font: 10px 'DM Mono', monospace; white-space: nowrap; color: #53755b; background: #edf3e9; border-radius: 18px; padding: 7px 11px; }
+.hm-description { margin: 12px 0 14px; color: #839083; font-size: 10px; line-height: 1.65; }
+.hm-charts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 11px; }
+.hm-chart-card { min-width: 0; border: 1px solid #e9eee6; border-radius: 5px; background: #fafbf8; padding: 13px 15px 6px; }
+.hm-chart-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hm-chart-heading > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.hm-chart-heading strong { font: 600 12px 'Manrope', sans-serif; color: #425447; }
+.hm-chart-heading small { font-size: 9px; line-height: 1.4; color: #89958a; }
+.hm-current-value { color: #41694e; font: 600 17px 'Manrope', sans-serif; white-space: nowrap; }
+.hm-chart { display: block; width: 100%; height: auto; margin-top: 4px; overflow: visible; }
+.hm-grid-line { stroke: #e4eae1; stroke-width: 1; stroke-dasharray: 4 4; }
+.hm-selection-guide { stroke: #98ad98; stroke-width: 1.5; stroke-dasharray: 4 4; }
+.hm-axis-label { fill: #819083; font: 11px 'DM Mono', monospace; }
+.hm-axis-caption { fill: #9aa69b; font: 10px 'DM Sans', sans-serif; }
+.hm-footnote { margin: 12px 0 0; color: #778577; font-size: 10px; line-height: 1.65; }
+.hm-footnote strong { color: #45654b; font-weight: 600; }
+.hm-screen-reader-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 680px) { .hm-panel { padding: 15px 13px; } .hm-chart-card { padding: 11px 9px 5px; } .hm-chart-heading strong { font-size: 11px; } .hm-current-value { font-size: 15px; } }
+@media (max-width: 420px) { .hm-axis-label { font-size: 12px; } }
