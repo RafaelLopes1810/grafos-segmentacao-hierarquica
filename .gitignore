@@ -40,3 +40,4 @@ data/processed/**/*.tif
 data/processed/**/*.tiff
 data/processed/**/*.webp
 data/processed/**/*.gif
+docs/video/*.mp4
