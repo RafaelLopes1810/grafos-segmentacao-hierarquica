@@ -82,7 +82,7 @@ O backend pode devolver **menos níveis** que o solicitado quando não existem q
 
 ## Testes automatizados
 
-Com as dependências Python instaladas, execute dentro de `backend/`:
+Com as dependências Python instaladas, execute os comandos abaixo **a partir da raiz do repositório**:
 
 ```powershell
 cd backend
@@ -138,6 +138,40 @@ Os dados completos da execução já registrada estão em [`data/results/reprodu
 
 O desvio padrão descreve a dispersão das medições, **não um intervalo de confiança**. Tempos dependem do ambiente. Como a imagem muda quando redimensionada, a comparação de MSE entre resoluções não verifica monotonicidade da hierarquia.
 
+## Apresentação e vídeo demonstrativo
+
+O projeto conta com materiais de apresentação e um vídeo demonstrativo das funcionalidades desenvolvidas pelos integrantes.
+
+### Slides da apresentação
+
+Os slides apresentam a contextualização do problema, modelagem do grafo, algoritmos implementados, arquitetura, interface e resultados obtidos.
+
+Estão disponíveis em dois formatos:
+
+- [Apresentação em PDF](docs/apresenta%C3%A7%C3%A3o/Apresentacao_GraphSeg.pdf)
+- [Apresentação em PowerPoint](docs/apresenta%C3%A7%C3%A3o/Apresentacao_GraphSeg.pptx)
+
+Os arquivos estão armazenados na pasta `docs/apresentação/`.
+
+### Vídeo demonstrativo
+
+O vídeo apresenta o funcionamento da ferramenta e a explicação das funcionalidades desenvolvidas pelos integrantes.
+
+Durante a demonstração, são abordados:
+
+- Construção do grafo e segmentação hierárquica no backend.
+- Interface React e navegação pelos níveis de segmentação.
+- Métricas de avaliação, testes automatizados e validação matemática.
+- Benchmark reproduzível e avaliação de desempenho.
+- Gráficos de regiões e MSE, modelagem UML e documentação.
+
+**Acesso ao vídeo:**
+
+- [Assistir ao vídeo demonstrativo no YouTube](https://youtu.be/A1oKSajlQoY)
+- [Documentação do vídeo](docs/video/README.md)
+
+O arquivo `docs/video/README.md` contém a referência ao vídeo da apresentação.
+
 ## Estrutura do repositório
 
 ```text
@@ -149,21 +183,31 @@ backend/
     evaluation/          # métricas e benchmark original
     main.py              # API FastAPI
   tests/                 # testes automatizados
+
 frontend/
   src/
     components/          # upload, navegação, RAG, gráficos e estatísticas
     services/api.js      # cliente HTTP
     App.jsx              # composição da interface
   README.md
+
 data/
   raw/carro.jpg          # imagem do benchmark
   results/               # segmentações e experimentos
+
 docs/
+  apresentação/          # slides em PDF e PowerPoint
+    Apresentacao_GraphSeg.pdf
+    Apresentacao_GraphSeg.pptx
   etapa1/uml/            # diagramas de classes, componentes e sequência
   relatorio/             # PDF SBC e documentação matemática/experimental
+  video/                 # referência ao vídeo demonstrativo
+    README.md
+
 scripts/
   run_segmentation.py
   benchmark_reproducivel.py
+
 README.md
 ```
 
@@ -177,6 +221,9 @@ README.md
 - [Código-fonte do relatório em LaTeX](docs/relatorio/main.tex)
 - [Capturas da interface e resultados](docs/relatorio/figuras/)
 - [Documentação do frontend React](frontend/README.md)
+- [Slides da apresentação em PDF](docs/apresenta%C3%A7%C3%A3o/Apresentacao_GraphSeg.pdf)
+- [Slides da apresentação em PowerPoint](docs/apresenta%C3%A7%C3%A3o/Apresentacao_GraphSeg.pptx)
+- [Vídeo demonstrativo do projeto](https://youtu.be/A1oKSajlQoY)
 
 O relatório científico apresenta a fundamentação teórica,
 a modelagem matemática, os algoritmos implementados,
@@ -186,3 +233,7 @@ os resultados experimentais e as contribuições individuais.
 O projeto também disponibiliza os diagramas UML,
 os dados do benchmark e as imagens obtidas durante
 a segmentação hierárquica.
+
+Os materiais de apresentação estão disponíveis na pasta
+`docs/apresentação/`, enquanto o vídeo demonstrativo
+pode ser acessado pelo link disponibilizado neste README.
