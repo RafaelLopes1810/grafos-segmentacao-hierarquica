@@ -4,6 +4,8 @@ Projeto da disciplina **Teoria dos Grafos e Computabilidade**. Uma imagem digita
 
 > As estruturas de grafos, Union-Find, segmentação e hierarquia foram implementadas no projeto; não é utilizada uma biblioteca pronta de algoritmos de grafos para realizar o processamento.
 
+**Repositório oficial:** [Acessar projeto no GitHub](https://github.com/RafaelLopes1810/grafos-segmentacao-hierarquica)
+
 ## Demonstração visual
 
 As imagens abaixo foram produzidas com `data/raw/carro.jpg`, resolução máxima de 320 px, conectividade 8, `k=300`, `sigma=0.8`, `min_size=20` e oito níveis.
